@@ -9,9 +9,9 @@ Resume work on the current project using its persistent memory.
    If it does not exist, say so and stop (the project has not been torn down yet).
 2. Pull the memory repo read-only state: `git -C ../rlm-claude-memory pull --ff-only` (skip if offline; say so).
 3. Read `../rlm-claude-memory/README.md` (rules), `$MEM/README.md`, `$MEM/status.md`, `$MEM/module-graph.md`.
-4. Staleness check: take the hash from the `Last verified:` line in `$MEM/module-graph.md` and run
-   `git diff <hash>..HEAD --stat` in the project repo. List source areas changed since then and which module docs
-   they map to. If anything is stale, say so before anything else.
+4. Staleness check: run `../rlm-claude-memory/scripts/check-staleness.sh` from the project repo. It reads the
+   `Last verified` hash in `$MEM/module-graph.md`, lists files changed since then and maps them to module docs.
+   If anything is stale, say so before anything else.
 5. If the user gave a hint ($ARGUMENTS) or status.md names in-progress work, read the matching
    `$MEM/modules/<name>.md` (and `$MEM/database.md` for DB/backend work, `../rlm-claude-memory/system-map.md` for
    cross-project work). Read only the latest 5-10 entries of any changelog you open.

@@ -6,7 +6,8 @@ Hand off the current session so the next one can resume from memory.
 
 1. `MEM=../rlm-claude-memory/$(basename "$(git rev-parse --show-toplevel)")`. Read `../rlm-claude-memory/README.md` rules.
 2. Collect facts from git in the project repo: current branch, `git status --short`, commits made this session
-   (`git log --oneline <last-verified-hash>..HEAD`), and the diff stat.
+   (`git log --oneline <last-verified-hash>..HEAD`), and run `../rlm-claude-memory/scripts/check-staleness.sh`
+   to see which module docs the changed files map to.
 3. Rewrite `$MEM/status.md` IN PLACE (no history): Done / Half-finished (with file pointers) / Next steps /
    Decisions made and why / Open questions. Keep it under ~60 lines.
 4. For every module touched this session, update `$MEM/modules/<name>.md` in place if files, routes, imports,

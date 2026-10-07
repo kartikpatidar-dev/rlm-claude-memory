@@ -97,6 +97,22 @@ What: <what changed, in one or two lines>
 Touches: <other modules/tables affected>
 ```
 
+## Staying current (enforcement)
+
+| Piece | Where | What it does |
+|---|---|---|
+| Staleness script | `scripts/check-staleness.sh [repo] \| --all` | Lists files changed since a project's `Last verified` hash and maps them to module docs. Read-only. Used by `/proj-resume` and `/proj-handoff`. |
+| Commit hook | `_shared/hooks/memory-commit-guard.sh`, registered as a user-level `PreToolUse` (Bash) hook in `~/.claude/settings.json` | When Claude runs `git commit` in a project repo whose memory dir has no pending changes, it shows a one-line notice and reminds Claude to update the docs. Never blocks. |
+| PR template | `.github/pull_request_template.md` in each project repo | Checklist: module doc / module-graph / database.md / system-map / status updated, or "no doc impact because ...". |
+| Project pointer | `CLAUDE.md` in each project repo | Tells every session to read and update this memory. |
+
+Hook registration (user settings, merge into existing `hooks`):
+
+```json
+{ "hooks": { "PreToolUse": [ { "matcher": "Bash", "hooks": [ { "type": "command",
+  "command": "\"<workspace>/rlm-claude-memory/_shared/hooks/memory-commit-guard.sh\"", "timeout": 20 } ] } ] } }
+```
+
 ## Commands
 
 The commands live in `_shared/commands/` and work for any project (they derive `<project-dir>` from the
